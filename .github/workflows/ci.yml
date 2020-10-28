@@ -34,13 +34,6 @@ jobs:
           [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; 
           iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 
-          Install-Module PowerShellGet  -Force -SkipPublisherCheck -Scope CurrentUser -AllowClobber
-          Write-Output 'Installing NuGet PackageProvider'
-          $pkg = Install-PackageProvider -Name NuGet -Force
-          Write-Output "Installed NuGet version '$($pkg.version)'"
-
-          Install-Module -Name au -Repository PSGallery -Force -SkipPublisherCheck -AllowClobber
-
           'Get-CimInstance win32_operatingsystem -Property Caption, OSArchitecture, Version |
           fl Caption, OSArchitecture, Version'
 
