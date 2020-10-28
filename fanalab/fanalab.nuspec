@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Do not remove this test for UTF-8: if “Ω” doesn’t appear as greek uppercase omega letter enclosed in quotation marks, you should use an editor that supports UTF-8, not this one. -->
+<!-- Do not remove this test for UTF-8: if â€œÎ©â€ doesnâ€™t appear as greek uppercase omega letter enclosed in quotation marks, you should use an editor that supports UTF-8, not this one. -->
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <!-- Read this before publishing packages to chocolatey.org: https://github.com/chocolatey/chocolatey/wiki/CreatePackages -->
     <id>fanalab</id>
     <title>Fanalab</title>
-    <version>3.0.0</version>
+    <version>1.47</version>
     <authors>Javy de Koning</authors>
     <owners>Javy de Koning</owners>
     <summary>PC software that allows fine-tuning of Fanatec hardware settings and features.</summary>
-    <description>
-    With this new software, you’ll have another means of adjusting Tuning Menu values on-the-fly,
-    with a wider overview of the settings compared to the wheel displays. 
-    You can save as many profiles as you like, and create an unlimited number of Tuning Menu presets.
-    These can be assigned to automatically load when you launch your favourite sim from FanaLab,
-    and you can export and share your best profiles with your friends.
+    <description>PC software that allows fine-tuning of Fanatec hardware settings and features. Originally designed for the Podium Series wheel bases, but as the development scope has grown, it now also fully supports the ClubSport Wheel Base V2.5 and CSL Elite Wheel Base.
 
-    [![Youtube](https://img.youtube.com/vi/sA1JfK1kx_w/0.jpg)](https://www.youtube.com/watch?v=sA1JfK1kx_w)
-    </description>
+## Release Notes
+
+[Fanalab Forum](https://forum.fanatec.com/categories/fanalab)
+
+## Package parameters
+
+* `NoDesktopIcon` - do not create desktop icon
+* `NoStartup`   - do not run CopyQ on OS startup
+
+[![Youtube](https://img.youtube.com/vi/sA1JfK1kx_w/0.jpg)](https://www.youtube.com/watch?v=sA1JfK1kx_w)
+</description>
     <projectUrl>https://forum.fanatec.com/discussion/1010/introducing-fanalab-beta-version-available-now</projectUrl>
     <tags>fanatec fanalab</tags>
     <copyright>Endor AG</copyright>
