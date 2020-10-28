@@ -23,7 +23,7 @@
     <copyright>Endor AG</copyright>
     <licenseUrl>https://fanatec.com/eu-en/trademark-copyright</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <iconUrl>https://cdn.rawgit.com/javydekoning/chocolatey-fanatec-packages/master/fanalab/icon.jpg</iconUrl>
+    <iconUrl>https://raw.githubusercontent.com/javydekoning/chocolatey-fanatec-packages/master/fanalab/icon.jpg</iconUrl>
     <dependencies>
       <dependency id="chocolatey-core.extension" version="1.2" />
     </dependencies>
