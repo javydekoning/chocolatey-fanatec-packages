@@ -8,6 +8,8 @@ function global:au_SearchReplace {
         ".\tools\chocolateyInstall.ps1" = @{
             "(?i)(^\s*[$]packageName\s*=\s*)('.*')" = "`$1'$($Latest.PackageName)'"
             "(?i)(^\s*[$]fileType\s*=\s*)('.*')"    = "`$1'$($Latest.FileType)'"
+            "(?i)(^\s*[$]url\s*=\s*)('.*')"         = "`$1'$($Latest.URL)'"
+            "(?i)(^\s*[$]checksum\s*=\s*)('.*')"    = "`$1'$($Latest.Checksum)'"
         }
 
         # "$($Latest.PackageName).nuspec" = @{
@@ -16,7 +18,7 @@ function global:au_SearchReplace {
 
         ".\legal\VERIFICATION.txt"      = @{
             "(?i)(\s+url:).*"            = "`${1} $($Latest.URL)"
-            "(?i)(checksum:).*"          = "`${1} $($Latest.Checksum32)"
+            "(?i)(checksum:).*"          = "`${1} $($Latest.Checksum)"
             "(?i)(Get-RemoteChecksum).*" = "`${1} $($Latest.URL)"
         }
     }
@@ -42,6 +44,7 @@ function global:au_GetLatest {
         Version     = $version
         PackageName = 'fanalab'
         FileType    = $url.split('.')[-1]
+        Checksum    = Get-RemoteChecksum $url
     }
 }
 
