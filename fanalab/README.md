@@ -8,7 +8,6 @@ PC software that allows fine-tuning of Fanatec hardware settings and features. O
 
 ## Package parameters
 
-* `NoDesktopIcon` - do not create desktop icon
-* `NoStartup`   - do not run CopyQ on OS startup
+* None
 
 [![Youtube](https://img.youtube.com/vi/sA1JfK1kx_w/0.jpg)](https://www.youtube.com/watch?v=sA1JfK1kx_w)
