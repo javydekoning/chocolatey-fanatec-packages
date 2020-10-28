@@ -1,14 +1,14 @@
 ﻿$ErrorActionPreference = 'Stop'
 
-$packageName = 'copyq'
+$packageName = 'fanalab'
 
-$fileType      = 'exe'
-$toolsDir      = Split-Path $MyInvocation.MyCommand.Definition
-$embedded_path = gi "$toolsDir\*.$fileType"
+$fileType = 'exe'
+$toolsDir = Split-Path $MyInvocation.MyCommand.Definition
+$embedded_path = Get-Item "$toolsDir\*.$fileType"
 
 $pp = Get-PackageParameters
-$tasks=@()
-if (!$pp.NoStartup)     { Write-Host 'Automatically start with Windows'; $tasks += 'startup'}
+$tasks = @()
+if (!$pp.NoStartup) { Write-Host 'Automatically start with Windows'; $tasks += 'startup' }
 if (!$pp.NoDesktopIcon) { Write-Host 'Create desktop icon'; $tasks += 'desktopicon' }
 
 $packageArgs = @{
@@ -24,7 +24,7 @@ rm $embedded_path -ea 0
 
 $packageName = $packageArgs.packageName
 $installLocation = Get-AppInstallLocation $packageName
-if (!$installLocation)  { Write-Warning "Can't find $packageName install location"; return }
+if (!$installLocation) { Write-Warning "Can't find $packageName install location"; return }
 Write-Host "$packageName installed to '$installLocation'"
 
 Register-Application "$installLocation\$packageName.exe"
