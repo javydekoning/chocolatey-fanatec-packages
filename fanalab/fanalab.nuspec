@@ -23,6 +23,7 @@
 [![Youtube](https://img.youtube.com/vi/sA1JfK1kx_w/0.jpg)](https://www.youtube.com/watch?v=sA1JfK1kx_w)
 </description>
     <projectUrl>https://forum.fanatec.com/discussion/1010/introducing-fanalab-beta-version-available-now</projectUrl>
+    <docsUrl>https://forum.fanatec.com/discussion/15205/fanalab-1-47-hotfix-download-post-your-feedback-here</docsUrl>
     <tags>fanatec fanalab</tags>
     <copyright>Endor AG</copyright>
     <licenseUrl>https://fanatec.com/eu-en/trademark-copyright</licenseUrl>
@@ -32,7 +33,7 @@
       <dependency id="chocolatey-core.extension" version="1.2" />
     </dependencies>
     <releaseNotes>https://forum.fanatec.com/categories/fanalab</releaseNotes>
-    <packageSourceUrl>https://github.com/javydekoning/chocolatey-fanatec-packages/master/fanalab/</packageSourceUrl>
+    <packageSourceUrl>https://github.com/javydekoning/chocolatey-fanatec-packages/tree/master/fanalab</packageSourceUrl>
   </metadata>
   <files>
     <file src="tools\**" target="tools" />
