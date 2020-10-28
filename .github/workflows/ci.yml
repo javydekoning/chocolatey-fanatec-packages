@@ -25,6 +25,7 @@ jobs:
           write-host "::set-output name=remote_ver::$remote_ver"
   build:
     runs-on: windows-Latest
+    needs: pre_build
     steps:
       - name: auto-update
         shell: pwsh
@@ -33,7 +34,7 @@ jobs:
           [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; 
           iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 
-          Install-Module PowerShellGet, PackageManagement  -Force -SkipPublisherCheck -Scope CurrentUser -AllowClobber
+          Install-Module PowerShellGet  -Force -SkipPublisherCheck -Scope CurrentUser -AllowClobber
           Write-Output 'Installing NuGet PackageProvider'
           $pkg = Install-PackageProvider -Name NuGet -Force
           Write-Output "Installed NuGet version '$($pkg.version)'"
