@@ -1,0 +1,90 @@
+name: CI
+
+on:
+  push:
+    branches: [ci, master]
+
+jobs:
+  pre_build:
+    runs-on: windows-latest
+    outputs:
+      remote_ver: ${{ steps.compare.outputs.remote_ver }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: scrape
+        id: update
+        shell: pwsh
+        run: |
+          $category_page = Invoke-WebRequest -Uri 'https://forum.fanatec.com/categories/fanalab' -UseBasicParsing |
+          Select-Object -ExpandProperty links | 
+          Where-Object { $_.outerHTML -match '.*FanaLab \d\.\d+.*' } | 
+          Select-Object -First 1
+          $version = [regex]::replace($category_page.outerHTML, '.*FanaLab (\d+\.\d+).*', '$1')
+
+          write-host "::set-output name=remote_ver::$remote_ver"
+  build:
+    runs-on: windows-Latest
+    steps:
+      - name: auto-update
+        shell: pwsh
+        run: |
+          # TLS v1.2 fix because 1.0 was deprecated
+          [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; 
+          iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+
+          Install-Module PowerShellGet, PackageManagement  -Force -SkipPublisherCheck -Scope CurrentUser -AllowClobber
+          Write-Output 'Installing NuGet PackageProvider'
+          $pkg = Install-PackageProvider -Name NuGet -Force
+          Write-Output "Installed NuGet version '$($pkg.version)'"
+
+          Install-Module -Name au -Repository PSGallery -Force -SkipPublisherCheck -AllowClobber
+
+          'Get-CimInstance win32_operatingsystem -Property Caption, OSArchitecture, Version |
+          fl Caption, OSArchitecture, Version'
+
+          $PSVersionTable
+          git --version
+          choco --version
+
+          git clone -q https://github.com/majkinetor/au.git $Env:TEMP/au
+          . "$Env:TEMP/au/scripts/Install-AU.ps1" $Env:au_version
+  # publish:
+  #   needs: pre_build
+  #   if: ${{ needs.pre_build.outputs.repo_ver != needs.pre_build.outputs.remote_ver }}
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v2
+  #     - name: update chocolateyinstall.ps1
+  #       id: update
+  #       shell: pwsh
+  #       env:
+  #         LINK: ${{ needs.pre_build.outputs.url }}
+  #         repo_ver: ${{ needs.pre_build.outputs.repo_ver }}
+  #         remote_ver: ${{ needs.pre_build.outputs.remote_ver }}
+  #       run: |
+  #         $RepoFile    = './amd-ryzen-chipset/tools/chocolateyinstall.ps1'
+  #         $chocoInst   = Get-Content $RepoFile -raw
+  #         $FileName    = ($ENV:LINK -split '/')[-1]
+  #         $FileVersion = $ENV:remote_ver
+  #         $RepoVersion = $ENV:repo_ver
+  #         Write-Host "Found: $FileVersion, Repo has: $RepoVersion downloading new version..."
+  #         Invoke-Webrequest -UseBasicParsing `
+  #                           -OutFile $FileName `
+  #                           -Headers @{Referer = 'https://www.amd.com/en/support/chipsets/amd-socket-am4/b450'} `
+  #                           -Uri $ENV:LINK
+  #         Write-Host "Generating sha256 hash..."
+  #         $Hash = Get-FileHash 'amd_chipset_software_2.10.13.408.exe' -Algorithm 'SHA256' | Select-Object -ExpandProperty Hash
+  #         Write-Host "Updating $RepoFile ..."
+  #         $chocoInst = $chocoInst -replace '[a-zA-Z0-9]{64}',$Hash
+  #         $chocoInst = $chocoInst -replace "'https://drivers.amd.com/drivers/.*'","'$ENV:LINK'"
+  #         $chocoInst | Out-File $RepoFile
+  #         cat $RepoFile
+  #     - name: Commit changes
+  #       uses: EndBug/add-and-commit@v5
+  #       with:
+  #         branch: version
+  #         message: "Automated update to version ${{ needs.pre_build.outputs.remote_ver }}"
+  #     env:
+  #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
