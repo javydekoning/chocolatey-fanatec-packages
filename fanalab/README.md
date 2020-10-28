@@ -1,4 +1,4 @@
-# <img src="[icon](https://raw.githubusercontent.com/javydekoning/chocolatey-fanatec-packages/master/fanalab/icon.jpg)" width="48" height="48"/> [Fanalab](https://chocolatey.org/packages/fanalab)
+# <img src="[icon](https://raw.githubusercontent.com/javydekoning/chocolatey-fanatec-packages/master/fanalab/icon.png)" width="48" height="48"/> [Fanalab](https://chocolatey.org/packages/fanalab)
 
 PC software that allows fine-tuning of Fanatec hardware settings and features. Originally designed for the Podium Series wheel bases, but as the development scope has grown, it now also fully supports the ClubSport Wheel Base V2.5 and CSL Elite Wheel Base.
 
