@@ -27,17 +27,21 @@ jobs:
     runs-on: windows-Latest
     needs: pre_build
     steps:
-      - name: auto-update
+      - name: install chocolatey
         shell: pwsh
         run: |
           # TLS v1.2 fix because 1.0 was deprecated
           [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; 
           iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-
-          Write-Host "PS version    : $($PSVersionTable["OS"].toString())"
+      - name: show versions
+        shell: pwsh
+        run: |
+          Write-Host "OS version    : $($PSVersionTable["OS"].toString())"
           Write-Host "Choco version : $(choco --version)"
           Write-Host "Git version   : $((git --version).split(' ')[-1])"
-
+      - name: install au
+        shell: pwsh
+        run: |
           git clone -q https://github.com/majkinetor/au.git $Env:TEMP/au
           . "$Env:TEMP/au/scripts/Install-AU.ps1" $Env:au_version
   # publish:
