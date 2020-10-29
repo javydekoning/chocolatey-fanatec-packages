@@ -68,7 +68,7 @@ jobs:
           if ($info.CommitMsg -like '*AU TEST*') {
             ./test_all.ps1 "random $Env:au_test_groups"
             return 
-          } else {Write-Host "Commit message is: $info.CommitMsg"}
+          } else {Write-Host "Commit message is: $($info.CommitMsg)"}
   #   needs: pre_build
   #   if: ${{ needs.pre_build.outputs.repo_ver != needs.pre_build.outputs.remote_ver }}
   #   runs-on: ubuntu-latest
