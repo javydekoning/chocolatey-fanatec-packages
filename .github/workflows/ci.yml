@@ -35,11 +35,13 @@ jobs:
           $info | fl *
       - name: install
         shell: pwsh
+        env:
+          au_version: "master"
         run: |
           git clone -q https://github.com/majkinetor/au.git $Env:TEMP/au
           . "$Env:TEMP/au/scripts/Install-AU.ps1" $Env:au_version
       - name: build_script
-        shell: powershell # Instead of pwsh because au fails on pwsh core.
+        shell: pwsh # Instead of pwsh because au fails on pwsh core.
         env:
           github_context: ${{ toJson(github) }}
           github_api_key: ${{ secrets.GH_TOKEN }}
@@ -81,7 +83,7 @@ jobs:
           ./update_all.ps1 -ForcedPackages $forced
           7z a au_temp.zip $Env:TEMP\chocolatey\au\*
       - name: create artifact
-        shell: powershell # Instead of pwsh because au fails on pwsh core.
+        shell: pwsh # Instead of pwsh because au fails on pwsh core.
         run: |
           7z a au_temp.zip $Env:TEMP\chocolatey\au\*
       - name: upload artifact
