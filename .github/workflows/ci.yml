@@ -61,8 +61,8 @@ jobs:
           git clone -q https://github.com/majkinetor/au.git $Env:TEMP/au
           . "$Env:TEMP/au/scripts/Install-AU.ps1" $Env:au_version
       - name: whatif updateall on ci branch
-        shell: powershell
-        if: ${{ github.ref == "refs/heads/ci" }} #Only run step if BRANCH = 'ci'
+        shell: powershell # Instead of pwsh because au fails on pwsh core.
+        if: contains(github.ref, "ci")
         env:
           github_api_key: ${{ secrets.GH_TOKEN }}
           github_user_repo: ${{ github.repository }}
