@@ -42,6 +42,7 @@ jobs:
         shell: powershell # Instead of pwsh because au fails on pwsh core.
         if: contains(github.ref, 'ci')
         env:
+          gist_id_test: "cb0f8e31c631a03beb28be380b58c056"
           github_api_key: ${{ secrets.GH_TOKEN }}
           github_user_repo: ${{ github.repository }}
           au_WhatIf: "true"
@@ -51,7 +52,7 @@ jobs:
           [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
           $ErrorActionPreference = 'Continue'
           ./test_all.ps1
-      - name: scheduled au
+      - name: trigger au
         shell: powershell # Instead of pwsh because au fails on pwsh core.
         if: ( contains(github.event_name, 'schedule') && contains(github.ref, 'master') ) || contains(github.ref, 'master')
         env:
