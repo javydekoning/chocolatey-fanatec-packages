@@ -65,9 +65,17 @@ jobs:
         run: |
           $info = cat ./state.json | ConvertFrom-Json
 
+          #List packages
+          Get-AuPackages
+
+          $Options = [ordered]@{
+            WhatIf  = $true
+            Force   = $true
+            Timeout = 10
+          }
+
           if ($info.CommitMsg -like '*AU TEST*') {
-            ./test_all.ps1 "random $Env:au_test_groups"
-            return 
+            updateall -Options $Options
           } else {Write-Host "Commit message is: $($info.CommitMsg)"}
   #   needs: pre_build
   #   if: ${{ needs.pre_build.outputs.repo_ver != needs.pre_build.outputs.remote_ver }}
