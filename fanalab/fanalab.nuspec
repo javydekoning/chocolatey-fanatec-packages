@@ -6,7 +6,7 @@
     <id>fanalab</id>
     <title>Fanalab</title>
     <version>1.47</version>
-    <authors>Javy de Koning</authors>
+    <authors>Fanatec (Endor AG)</authors>
     <owners>Javy de Koning</owners>
     <summary>PC software that allows fine-tuning of Fanatec hardware settings and features.</summary>
     <description>PC software that allows fine-tuning of Fanatec hardware settings and features. Originally designed for the Podium Series wheel bases, but as the development scope has grown, it now also fully supports the ClubSport Wheel Base V2.5 and CSL Elite Wheel Base.
@@ -17,8 +17,7 @@
 
 ## Package parameters
 
-* `NoDesktopIcon` - do not create desktop icon
-* `NoStartup`   - do not run CopyQ on OS startup
+* None
 
 [![Youtube](https://img.youtube.com/vi/sA1JfK1kx_w/0.jpg)](https://www.youtube.com/watch?v=sA1JfK1kx_w)
 </description>
