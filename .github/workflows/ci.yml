@@ -62,7 +62,7 @@ jobs:
           . "$Env:TEMP/au/scripts/Install-AU.ps1" $Env:au_version
       - name: whatif updateall on ci branch
         shell: powershell # Instead of pwsh because au fails on pwsh core.
-        if: contains(github.ref, "ci")
+        if: contains(github.ref, 'ci')
         env:
           github_api_key: ${{ secrets.GH_TOKEN }}
           github_user_repo: ${{ github.repository }}
