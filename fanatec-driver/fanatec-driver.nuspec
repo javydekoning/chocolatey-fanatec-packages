@@ -40,7 +40,7 @@ motor, and steering wheel firmwares separately.
       <dependency id="chocolatey-core.extension" version="1.2" />
     </dependencies>
     <releaseNotes>https://fanatec.com/eu-en/racing-wheels-wheel-bases/wheel-bases/podium-wheel-base-dd1#downloads</releaseNotes>
-    <packageSourceUrl>https://github.com/javydekoning/chocolatey-fanatec-packages/tree/master/fanatec-drivers</packageSourceUrl>
+    <packageSourceUrl>https://github.com/javydekoning/chocolatey-fanatec-packages/tree/master/fanatec-driver</packageSourceUrl>
   </metadata>
   <files>
     <file src="tools\**" target="tools" />
