@@ -63,6 +63,7 @@ jobs:
       - name: au
         shell: pwsh
         run: |
+          [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
           $info = cat ./state.json | ConvertFrom-Json
 
           #List packages
