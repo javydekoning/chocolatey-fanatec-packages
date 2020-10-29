@@ -27,8 +27,13 @@ jobs:
           echo "GITHUB_COMMIT_MSG=$($info.CommitMsg)" >> $GITHUB_ENV
 
           $info | fl *
-      - name: Checkout code
-        uses: actions/checkout@v2
+          $info | ConvertTo-Json | Out-File -Encoding utf8 state.json
+
+      - name: Upload state
+        uses: actions/upload-artifact@v2
+        with:
+          name: state
+          path: state.json
       - name: scrape
         id: update
         shell: pwsh
@@ -44,6 +49,12 @@ jobs:
     runs-on: windows-Latest
     needs: pre_build
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Download State
+        uses: actions/download-artifact@v2
+        with:
+          name: state
       - name: install au
         shell: pwsh
         run: |
@@ -52,10 +63,12 @@ jobs:
       - name: au
         shell: pwsh
         run: |
-          if ($ENV:GITHUB_COMMIT_MSG  -like '*AU TEST*') {
+          $info = cat ./state.json | ConvertFrom-Json
+
+          if ($info.CommitMsg -like '*AU TEST*') {
             ./test_all.ps1 "random $Env:au_test_groups"
             return 
-          } else {Write-Host "Commit message is: $ENV:GITHUB_COMMIT_MSG"}
+          } else {Write-Host "Commit message is: $info.CommitMsg"}
   #   needs: pre_build
   #   if: ${{ needs.pre_build.outputs.repo_ver != needs.pre_build.outputs.remote_ver }}
   #   runs-on: ubuntu-latest
