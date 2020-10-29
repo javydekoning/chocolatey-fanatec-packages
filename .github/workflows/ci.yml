@@ -3,6 +3,8 @@ name: CI
 on:
   push:
     branches: [ci, master]
+  schedule:
+    - cron: "* 9 * * *"
 
 jobs:
   pre_build:
@@ -10,6 +12,16 @@ jobs:
     outputs:
       remote_ver: ${{ steps.compare.outputs.remote_ver }}
     steps:
+      - name: show info
+        shell: pwsh
+        run: |
+          Write-Host "Event         : $ENV:GITHUB_EVENT_NAME"
+          Write-Host "Ref           : $ENV:GITHUB_REF"
+          Write-Host "OS version    : $($PSVersionTable["OS"].toString())"
+          Write-Host "Choco version : $(choco --version)"
+          Write-Host "Git version   : $((git --version).split(' ')[-1])"
+
+          cat $ENV:GITHUB_EVENT_PATH
       - name: Checkout code
         uses: actions/checkout@v2
       - name: scrape
@@ -27,12 +39,6 @@ jobs:
     runs-on: windows-Latest
     needs: pre_build
     steps:
-      - name: show versions
-        shell: pwsh
-        run: |
-          Write-Host "OS version    : $($PSVersionTable["OS"].toString())"
-          Write-Host "Choco version : $(choco --version)"
-          Write-Host "Git version   : $((git --version).split(' ')[-1])"
       - name: install au
         shell: pwsh
         run: |
