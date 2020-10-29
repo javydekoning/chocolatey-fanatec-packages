@@ -43,6 +43,7 @@ jobs:
         env:
           github_context: ${{ toJson(github) }}
           github_api_key: ${{ secrets.GH_TOKEN }}
+          choco_api_key: ${{ secrets.CHOCO_TOKEN }}
           github_user_repo: ${{ github.repository }}
           gist_id: "84b7570be09beb04ffb3ba3cd6d35eda"
           gist_id_test: "cb0f8e31c631a03beb28be380b58c056"
@@ -51,6 +52,7 @@ jobs:
         run: |
           [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
           $context = $ENV:github_context | ConvertFrom-JSON
+          choco apikey --key $ENV:choco_api_key --source https://push.chocolatey.org/
           $ErrorActionPreference = 'Continue'
 
           if ($context.ref  -like '*ci*') { ./test_all.ps1 "random $Env:au_test_groups"; return }
