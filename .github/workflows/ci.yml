@@ -24,6 +24,8 @@ jobs:
             'VersionGit'   = (git --version).split(' ')[-1]
           }
 
+          echo "GITHUB_COMMIT_MSG=$($info.CommitMsg)" >> $GITHUB_ENV
+
           $info | fl *
       - name: Checkout code
         uses: actions/checkout@v2
@@ -47,7 +49,13 @@ jobs:
         run: |
           git clone -q https://github.com/majkinetor/au.git $Env:TEMP/au
           . "$Env:TEMP/au/scripts/Install-AU.ps1" $Env:au_version
-  # publish:
+      - name: au
+        shell: pwsh
+        run: |
+          if ($ENV:GITHUB_COMMIT_MSG  -like '*AU TEST*') {
+            ./test_all.ps1 "random $Env:au_test_groups"
+            return 
+          } else {Write-Host "Commit message is: $ENV:GITHUB_COMMIT_MSG"}
   #   needs: pre_build
   #   if: ${{ needs.pre_build.outputs.repo_ver != needs.pre_build.outputs.remote_ver }}
   #   runs-on: ubuntu-latest
