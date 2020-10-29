@@ -4,8 +4,10 @@ This repository holds Chocolatey packages for [Fanatec drivers and their Fanalab
 It does NOT hold a copy of the Fanatec software, only pointers to the files on their website.
 
 [![](https://github.com/javydekoning/chocolatey-fanatec-packages/workflows/CI/badge.svg)](https://github.com/javydekoning/chocolatey-fanatec-packages/actions/)
-[Master branch update status](https://gist.github.com/javydekoning/84b7570be09beb04ffb3ba3cd6d35eda)
-[Dev update status](https://gist.github.com/javydekoning/cb0f8e31c631a03beb28be380b58c056)
+
+- [Master branch update status](https://gist.github.com/javydekoning/84b7570be09beb04ffb3ba3cd6d35eda)
+- [Dev update status](https://gist.github.com/javydekoning/cb0f8e31c631a03beb28be380b58c056)
+
 [chocolatey/javydekoning](https://chocolatey.org/profiles/javydekoning)
 
 This repository contains [chocolatey automatic packages](https://chocolatey.org/docs/automatic-packages).  
