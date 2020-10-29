@@ -29,11 +29,6 @@ jobs:
           }
 
           $info | fl *
-      - name: Upload state
-        uses: actions/upload-artifact@v2
-        with:
-          name: state
-          path: state.json
       - name: scrape
         id: update
         shell: pwsh
@@ -51,10 +46,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Download State
-        uses: actions/download-artifact@v2
-        with:
-          name: state
       - name: install au
         shell: pwsh
         run: |
