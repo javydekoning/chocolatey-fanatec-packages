@@ -62,7 +62,7 @@ jobs:
           . "$Env:TEMP/au/scripts/Install-AU.ps1" $Env:au_version
       - name: whatif updateall on ci branch
         shell: powershell
-        if: ${{ github.ref == refs/heads/ci }} #Only run step if BRANCH = 'ci'
+        if: ${{ github.ref == "refs/heads/ci" }} #Only run step if BRANCH = 'ci'
         env:
           github_api_key: ${{ secrets.GH_TOKEN }}
           github_user_repo: ${{ github.repository }}
@@ -71,7 +71,7 @@ jobs:
           au_Push: "false"
         run: |
           [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
-          ./update_all.ps1
+          ./test_all.ps1
   #   needs: pre_build
   #   if: ${{ needs.pre_build.outputs.repo_ver != needs.pre_build.outputs.remote_ver }}
   #   runs-on: ubuntu-latest
