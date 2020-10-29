@@ -61,7 +61,7 @@ jobs:
           au_Push: "true"
         run: |
           ./update_all.ps1
-      - name: upload artifact
+      - name: create artifact
         shell: powershell # Instead of pwsh because au fails on pwsh core.
         run: |
           7z a au_temp.zip $Env:TEMP\chocolatey\au\*
