@@ -54,7 +54,7 @@ $options = [ordered]@{
             Github_UserRepo = $Env:github_user_repo         #  Markdown: shows user info in upper right corner
             NoAppVeyor      = $true                             #  Markdown: do not show AppVeyor build shield
             Title           = "Update Force Test - Group ${n}"
-            UserMessage     = "[Ignored](#ignored) | [Update report](https://gist.github.com/$Env:gist_id_test)"       #  Markdown, Text: Custom user message to show
+            UserMessage     = "[Ignored](#ignored) | [Update report](https://gist.github.com/$Env:gist_id)"       #  Markdown, Text: Custom user message to show
         }
     }
 

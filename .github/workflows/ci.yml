@@ -38,32 +38,48 @@ jobs:
         run: |
           git clone -q https://github.com/majkinetor/au.git $Env:TEMP/au
           . "$Env:TEMP/au/scripts/Install-AU.ps1" $Env:au_version
-      - name: "invoke test_all if running on 'ci' branch"
+      - name: build_script
         shell: powershell # Instead of pwsh because au fails on pwsh core.
-        if: contains(github.ref, 'ci')
         env:
-          gist_id_test: "cb0f8e31c631a03beb28be380b58c056"
           github_api_key: ${{ secrets.GH_TOKEN }}
           github_user_repo: ${{ github.repository }}
+          gist_id: "84b7570be09beb04ffb3ba3cd6d35eda"
+          gist_id_test: "cb0f8e31c631a03beb28be380b58c056"
+          au_test_groups: 1
+          au_push: true
           au_WhatIf: "true"
           au_Force: "true"
           au_Push: "false"
         run: |
           [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
+          $context = $ENV:GITHUB_CONTEXT | ConvertFrom-JSON
           $ErrorActionPreference = 'Continue'
-          ./test_all.ps1
-      - name: trigger au
-        shell: powershell # Instead of pwsh because au fails on pwsh core.
-        if: ( contains(github.event_name, 'schedule') && contains(github.ref, 'master') ) || contains(github.ref, 'master')
-        env:
-          gist_id_test: "84b7570be09beb04ffb3ba3cd6d35eda"
-          github_api_key: ${{ secrets.GH_TOKEN }}
-          github_user_repo: ${{ github.repository }}
-          au_WhatIf: "false"
-          au_Force: "false"
-          au_Push: "true"
-        run: |
-          ./update_all.ps1
+
+          if ($context.ref  -like '*ci*') { ./test_all.ps1 "random $Env:au_test_groups"; return }
+
+          if ( $ENV:GITHUB_EVENT_NAME -eq 'push' ) {
+              switch -regex ( (gc $ENV:GITHUB_EVENT_PATH | ConvertFrom-Json).commits.message )
+              {
+                  '\[AU (.+?)\]'   { $forced = $Matches[1] }
+                  '\[PUSH (.+?)\]' {
+                      $packages = $Matches[1] -split ' '
+                      Write-Host "PUSHING PACKAGES: $packages"
+                      foreach ($package in $packages) {
+                          Write-Host ("{0}`n{1}`n" -f ('-'*60), "PACKAGE: $package")
+                          $package_dir = ls -recurse | ? { $_.Name -eq "$package.nuspec"} | select -First 1 | % Directory
+                          if (!$package_dir) { Write-Warning "Can't find package '$package'"; continue }
+                          pushd $package_dir
+                            if (Test-Path update.ps1 -ea 0) { ./update.ps1 }
+                            choco pack; Push-Package;
+                          popd
+                      }
+                      return
+                  }
+              }
+          }
+
+          ./update_all.ps1 -ForcedPackages $forced
+          7z a au_temp.zip $Env:TEMP\chocolatey\au\*
       - name: create artifact
         shell: powershell # Instead of pwsh because au fails on pwsh core.
         run: |
