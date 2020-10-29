@@ -14,6 +14,7 @@ function global:au_SearchReplace {
 
         "$($Latest.PackageName).nuspec" = @{
             "(\<docsUrl\>).*?(\</docsUrl\>)" = "`${1}$($Latest.docsUrl)`$2"
+            "(\<version\>).*?(\</version\>)" = "`${1}$($Latest.Version)`$2"
         }
 
         ".\legal\VERIFICATION.txt"      = @{
