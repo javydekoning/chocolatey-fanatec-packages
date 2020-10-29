@@ -7,16 +7,22 @@ on:
     - cron: "* 9 * * *"
 
 jobs:
-  pre_build:
+  ci:
     runs-on: windows-latest
     outputs:
       remote_ver: ${{ steps.compare.outputs.remote_ver }}
     steps:
-      - name: Dump GitHub context
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: init
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo $GITHUB_CONTEXT
-      - name: show info
+        run: |
+          $ENV:GITHUB_CONTEXT | ConvertFrom-JSON | ConvertTo-Json
+          # git config --global user.email "chocolatey@realdimensions.net"
+          # git config --global user.name "Chocolatey"
+          # git config --global core.safecrlf false
+      - name: build info
         shell: pwsh
         run: |
           $info = [PSCustomObject]@{
@@ -29,29 +35,12 @@ jobs:
           }
 
           $info | fl *
-      - name: scrape
-        id: update
-        shell: pwsh
-        run: |
-          $category_page = Invoke-WebRequest -Uri 'https://forum.fanatec.com/categories/fanalab' -UseBasicParsing |
-          Select-Object -ExpandProperty links | 
-          Where-Object { $_.outerHTML -match '.*FanaLab \d\.\d+.*' } | 
-          Select-Object -First 1
-          $version = [regex]::replace($category_page.outerHTML, '.*FanaLab (\d+\.\d+).*', '$1')
-
-          write-host "::set-output name=remote_ver::$remote_ver"
-  build:
-    runs-on: windows-Latest
-    needs: pre_build
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: install au
+      - name: install
         shell: pwsh
         run: |
           git clone -q https://github.com/majkinetor/au.git $Env:TEMP/au
           . "$Env:TEMP/au/scripts/Install-AU.ps1" $Env:au_version
-      - name: whatif updateall on ci branch
+      - name: "test_all if running on 'ci' branch"
         shell: powershell # Instead of pwsh because au fails on pwsh core.
         if: contains(github.ref, 'ci')
         env:
@@ -63,41 +52,17 @@ jobs:
         run: |
           [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
           ./test_all.ps1
-  #   needs: pre_build
-  #   if: ${{ needs.pre_build.outputs.repo_ver != needs.pre_build.outputs.remote_ver }}
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v2
-  #     - name: update chocolateyinstall.ps1
-  #       id: update
-  #       shell: pwsh
-  #       env:
-  #         LINK: ${{ needs.pre_build.outputs.url }}
-  #         repo_ver: ${{ needs.pre_build.outputs.repo_ver }}
-  #         remote_ver: ${{ needs.pre_build.outputs.remote_ver }}
-  #       run: |
-  #         $RepoFile    = './amd-ryzen-chipset/tools/chocolateyinstall.ps1'
-  #         $chocoInst   = Get-Content $RepoFile -raw
-  #         $FileName    = ($ENV:LINK -split '/')[-1]
-  #         $FileVersion = $ENV:remote_ver
-  #         $RepoVersion = $ENV:repo_ver
-  #         Write-Host "Found: $FileVersion, Repo has: $RepoVersion downloading new version..."
-  #         Invoke-Webrequest -UseBasicParsing `
-  #                           -OutFile $FileName `
-  #                           -Headers @{Referer = 'https://www.amd.com/en/support/chipsets/amd-socket-am4/b450'} `
-  #                           -Uri $ENV:LINK
-  #         Write-Host "Generating sha256 hash..."
-  #         $Hash = Get-FileHash 'amd_chipset_software_2.10.13.408.exe' -Algorithm 'SHA256' | Select-Object -ExpandProperty Hash
-  #         Write-Host "Updating $RepoFile ..."
-  #         $chocoInst = $chocoInst -replace '[a-zA-Z0-9]{64}',$Hash
-  #         $chocoInst = $chocoInst -replace "'https://drivers.amd.com/drivers/.*'","'$ENV:LINK'"
-  #         $chocoInst | Out-File $RepoFile
-  #         cat $RepoFile
-  #     - name: Commit changes
-  #       uses: EndBug/add-and-commit@v5
-  #       with:
-  #         branch: version
-  #         message: "Automated update to version ${{ needs.pre_build.outputs.remote_ver }}"
-  #     env:
-  #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: scheduled au
+        shell: powershell # Instead of pwsh because au fails on pwsh core.
+        if: ( contains(github.event_name, 'schedule') && contains(github.ref, 'master') ) # for push&pull request, only
+        run: |
+          ./update_all.ps1
+      - name: scheduled au
+        shell: powershell # Instead of pwsh because au fails on pwsh core.
+        run: |
+          7z a au_temp.zip $Env:TEMP\chocolatey\au\*
+      - name: upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: au_temp
+          path: au_temp.zip
