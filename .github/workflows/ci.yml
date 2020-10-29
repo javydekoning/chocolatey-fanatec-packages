@@ -12,6 +12,10 @@ jobs:
     outputs:
       remote_ver: ${{ steps.compare.outputs.remote_ver }}
     steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo $GITHUB_CONTEXT
       - name: show info
         shell: pwsh
         run: |
@@ -24,11 +28,7 @@ jobs:
             'VersionGit'   = (git --version).split(' ')[-1]
           }
 
-          echo "GITHUB_COMMIT_MSG=$($info.CommitMsg)" >> $GITHUB_ENV
-
           $info | fl *
-          $info | ConvertTo-Json | Out-File -Encoding utf8 state.json
-
       - name: Upload state
         uses: actions/upload-artifact@v2
         with:
@@ -60,24 +60,18 @@ jobs:
         run: |
           git clone -q https://github.com/majkinetor/au.git $Env:TEMP/au
           . "$Env:TEMP/au/scripts/Install-AU.ps1" $Env:au_version
-      - name: au
+      - name: whatif updateall on ci branch
         shell: powershell
+        if: ${{ github.ref == refs/heads/ci }} #Only run step if BRANCH = 'ci'
+        env:
+          github_api_key: ${{ secrets.GH_TOKEN }}
+          github_user_repo: ${{ github.repository }}
+          au_WhatIf: "true"
+          au_Force: "true"
+          au_Push: "false"
         run: |
           [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
-          $info = cat ./state.json | ConvertFrom-Json
-
-          #List packages
-          Get-AuPackages
-
-          $Options = [ordered]@{
-            WhatIf  = $true
-            Force   = $true
-            Timeout = 10
-          }
-
-          if ($info.CommitMsg -like '*AU TEST*') {
-            updateall -Options $Options
-          } else {Write-Host "Commit message is: $($info.CommitMsg)"}
+          ./update_all.ps1
   #   needs: pre_build
   #   if: ${{ needs.pre_build.outputs.repo_ver != needs.pre_build.outputs.remote_ver }}
   #   runs-on: ubuntu-latest
