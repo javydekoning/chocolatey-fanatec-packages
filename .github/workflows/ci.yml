@@ -19,7 +19,7 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
           $context = $ENV:GITHUB_CONTEXT | ConvertFrom-JSON
-          git config --global user.email ($context.repository_owner '+github@gmail.com')
+          git config --global user.email ($context.repository_owner + '+github@gmail.com')
           git config --global user.name $context.repository_owner
           git config --global core.safecrlf false
 
