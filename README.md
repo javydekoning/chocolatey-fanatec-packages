@@ -1,14 +1,14 @@
-~~~
-<!-- EDIT ME-->
+# Fanatec Chocolatey Packages
 
-[![](https://ci.appveyor.com/api/projects/status/github/YOUR_GITHUB_USERNAME_HERE/chocolatey-packages?svg=true)](https://ci.appveyor.com/project/YOUR_GITHUB_USERNAME_HERE/chocolatey-packages)
-[Update status](https://gist.github.com/YOUR_GITHUB_USERNAME_HERE/YOUR_GIST_ID_HERE)
-[![](http://transparent-favicon.info/favicon.ico)](#)
-[chocolatey/YOUR_CHOCOLATEY_USERNAME_HERE](https://chocolatey.org/profiles/YOUR_CHOCOLATEY_USERNAME_HERE)
+This repository holds Chocolatey packages for [Fanatec drivers and their Fanalab Software](https://fanatec.com).
+It does NOT hold a copy of the Fanatec software, only pointers to the files on their website.
 
-<!-- EDIT ME-->
-<!-- REMOVE THE squiggles "~" surrounding this (this should not be a code block) -->
-~~~
+[![](https://github.com/javydekoning/chocolatey-fanatec-packages/workflows/CI/badge.svg)](https://github.com/javydekoning/chocolatey-fanatec-packages/actions/)
+
+- [Master branch update status](https://gist.github.com/javydekoning/84b7570be09beb04ffb3ba3cd6d35eda)
+- [Dev update status](https://gist.github.com/javydekoning/cb0f8e31c631a03beb28be380b58c056)
+
+[chocolatey/javydekoning](https://chocolatey.org/profiles/javydekoning)
 
 This repository contains [chocolatey automatic packages](https://chocolatey.org/docs/automatic-packages).  
 The repository is setup so that you can manage your packages entirely from the GitHub web interface (using AppVeyor to update and push packages) and/or using the local repository copy.

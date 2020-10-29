@@ -12,9 +12,9 @@ function global:au_SearchReplace {
             "(?i)(^\s*[$]checksum\s*=\s*)('.*')"    = "`$1'$($Latest.Checksum)'"
         }
 
-        # "$($Latest.PackageName).nuspec" = @{
-        #     "(\<releaseNotes\>).*?(\</releaseNotes\>)" = "`${1}$($Latest.ReleaseNotes)`$2"
-        # }
+        "$($Latest.PackageName).nuspec" = @{
+            "(\<docsUrl\>).*?(\</docsUrl\>)" = "`${1}$($Latest.docsUrl)`$2"
+        }
 
         ".\legal\VERIFICATION.txt"      = @{
             "(?i)(\s+url:).*"            = "`${1} $($Latest.URL)"
@@ -45,6 +45,7 @@ function global:au_GetLatest {
         PackageName = 'fanalab'
         FileType    = $url.split('.')[-1]
         Checksum    = Get-RemoteChecksum $url
+        docsUrl     = $category_page.href
     }
 }
 
