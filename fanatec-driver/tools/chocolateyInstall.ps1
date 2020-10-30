@@ -30,4 +30,4 @@ $store.Open('ReadWrite, OpenExistingOnly')
 $store.Add((Get-AuthenticodeSignature $installerPath).SignerCertificate)
 $store.Close()
 
-Install-ChocolateyPackage -url $downloadArgs.fileFullPath -silentArgs = "/qn /norestart" -validExitCodes @(0, 3010, 1641) -filetype = 'msi' -UseOriginalLocation
+Install-ChocolateyPackage -url $downloadArgs.fileFullPath -silentArgs "/qn /norestart" -validExitCodes @(0, 3010, 1641) -filetype = 'msi' -UseOriginalLocation
