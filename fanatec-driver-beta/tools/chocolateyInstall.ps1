@@ -2,7 +2,7 @@
 
 $FileName = 'UB5ML9470EP4.zip'
 
-$UnzipLocation = [io.path]::GetFileNameWithoutExtension( (join-path "$env:TMP" $FileName) )
+$UnzipLocation = join-path "$env:TMP" ([io.path]::GetFileNameWithoutExtension( $FileName ))
 
 $packageArgs = @{
   packageName            = 'fanatec-driver-beta'
@@ -12,16 +12,24 @@ $packageArgs = @{
   UnzipLocation          = $UnzipLocation
 }
 
+Write-Verbose "Unzip to $($packageArgs.UnzipLocation)"
+
 Install-ChocolateyZipPackage @packageArgs
 
-$FilePath = gci $packageArgs.UnzipLocation -Recurse *64*driver*.msi
+$FilePath32 = gci $packageArgs.UnzipLocation -Recurse *32*driver*.msi | sort name | select -Last 1
+$FilePath64 = gci $packageArgs.UnzipLocation -Recurse *64*driver*.msi | sort name | select -Last 1
+
+Write-Verbose "Using $($FilePath64.FullName)"
 
 $packageArgs = @{
   packageName            = 'fanatec-driver-beta'
   FileType               = 'msi'
   SilentArgs             = '/qn /norestart'
-  File                   = $FilePath.FullName
+  File                   = $FilePath32.FullName
+  File64                 = $FilePath64.FullName
   validExitCodes         = @(0, 3010, 1641)
 }
   
 Install-ChocolateyInstallPackage @packageArgs
+
+Remove-Item $UnzipLocation -Recurse -Force

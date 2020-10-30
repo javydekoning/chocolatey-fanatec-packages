@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [fanatec-driver, ci, master]
+    branches: [dev, ci, master]
   schedule:
-    - cron: "* 9 * * *"
+    - cron: "0 11 * * *"
 
 jobs:
   ci:
@@ -25,6 +25,7 @@ jobs:
 
           $info = [PSCustomObject]@{
             'Event'        = $ENV:GITHUB_EVENT_NAME
+            #THIS DOES NOT WORK WHEN RUNNING ON SCHEDULE
             'CommitMsg'    = (gc $ENV:GITHUB_EVENT_PATH | ConvertFrom-Json).commits.message
             'Ref'          = $ENV:GITHUB_REF
             'VersionOS'    = $PSVersionTable["OS"].toString()
@@ -33,11 +34,15 @@ jobs:
           }
 
           $info | fl *
+
+          #Dumping Context
+          $context | ConvertTo-Json
       - name: install
         shell: pwsh
         env:
           au_version: "master"
         run: |
+          install-Module powerhtml -Force -SkipPublisherCheck
           git clone -q https://github.com/majkinetor/au.git $Env:TEMP/au
           . "$Env:TEMP/au/scripts/Install-AU.ps1" $Env:au_version
       - name: build_script
