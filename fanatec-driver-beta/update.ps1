@@ -32,6 +32,7 @@ function global:au_GetLatest {
     if (! (Get-Module Powerhtml -ListAvailable)) {
         Install-Module powerhtml -force -SkipPublisherCheck
     }
+    Import-Module Powerhtml -Force
 
     $page    = iwr $releases -UseBasicParsing 
     $latest  = ($page.Links | ? {$_.href -match '.*driver.*\d{3}.*'} | select -Last 1).href
