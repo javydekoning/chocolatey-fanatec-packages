@@ -4,7 +4,7 @@ on:
   push:
     branches: [dev, ci, master]
   schedule:
-    - cron: "* 9 * * *"
+    - cron: "0 11 * * *"
 
 jobs:
   ci:
@@ -25,6 +25,7 @@ jobs:
 
           $info = [PSCustomObject]@{
             'Event'        = $ENV:GITHUB_EVENT_NAME
+            #THIS DOES NOT WORK WHEN RUNNING ON SCHEDULE
             'CommitMsg'    = (gc $ENV:GITHUB_EVENT_PATH | ConvertFrom-Json).commits.message
             'Ref'          = $ENV:GITHUB_REF
             'VersionOS'    = $PSVersionTable["OS"].toString()
@@ -33,6 +34,9 @@ jobs:
           }
 
           $info | fl *
+
+          #Dumping Context
+          $context | ConvertTo-Json
       - name: install
         shell: pwsh
         env:
