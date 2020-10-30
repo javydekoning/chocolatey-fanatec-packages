@@ -12,17 +12,21 @@ $packageArgs = @{
   UnzipLocation          = $UnzipLocation
 }
 
+Write-Verbose "Unzip to $($packageArgs.UnzipLocation)"
+
 Install-ChocolateyZipPackage @packageArgs
 
-$FilePath32 = gci $packageArgs.UnzipLocation -Recurse *32*driver*.msi
-$FilePath64 = gci $packageArgs.UnzipLocation -Recurse *64*driver*.msi
+$FilePath32 = gci $packageArgs.UnzipLocation -Recurse *32*driver*.msi | sort name | select -Last 1
+$FilePath64 = gci $packageArgs.UnzipLocation -Recurse *64*driver*.msi | sort name | select -Last 1
+
+Write-Verbose "Using $($FilePath64.FullName)"
 
 $packageArgs = @{
   packageName            = 'fanatec-driver-beta'
   FileType               = 'msi'
   SilentArgs             = '/qn /norestart'
-  File                   = $FilePath32
-  File64                 = $FilePath64
+  File                   = $FilePath32.FullName
+  File64                 = $FilePath64.FullName
   validExitCodes         = @(0, 3010, 1641)
 }
   
