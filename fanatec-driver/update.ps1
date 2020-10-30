@@ -6,9 +6,9 @@ $releases = 'https://fanatec.com/eu-en/racing-wheels-wheel-bases/wheel-bases/pod
 function global:au_SearchReplace {
     @{
         ".\tools\chocolateyInstall.ps1" = @{
-            "(?i)(^\s+packageName\s+=\s+)(.*)"    = "`$1'$($Latest.PackageName)'"
-            "(?i)(^\s+url\s+=\s+)(.*)"            = "`$1'$($Latest.URL)'"
-            "(?i)(^\s+url64bit\s+=\s+)(.*)"       = "`$1'$($Latest.URL64)'"
+            "(?i)(^\s*[$]packageName\s+=\s+)(.*)" = "`$1'$($Latest.PackageName)'"
+            "(?i)(^\s*[$]url\s+=\s+)(.*)"         = "`$1'$($Latest.URL)'"
+            "(?i)(^\s*[$]url64\s+=\s+)(.*)"       = "`$1'$($Latest.URL64)'"
             "(?i)(^\s+checksum\s+=\s+)(.*)"       = "`$1'$($Latest.Checksum)'"
             "(?i)(^\s+checksum64\s+=\s+)(.*)"     = "`$1'$($Latest.Checksum64)'"
         }
