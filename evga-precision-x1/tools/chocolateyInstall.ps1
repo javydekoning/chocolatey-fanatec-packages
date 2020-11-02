@@ -1,16 +1,16 @@
 ﻿$ErrorActionPreference = 'Stop'
 
-$toolsDir = "$(Split-Path -Parent $MyInvocation.MyCommand.Definition)"
-$filePath = "$toolsDir\fanatec_driver.msi"
-$packageName = 'evga-precision-x1'
-$url = 'https://fanatec.com/media/unknown/fe/df/ab/Fanatec_32_driver_346.msi'
-$FileName = 'UB5ML9470EP4.zip'
+$toolsDir      = "$(Split-Path -Parent $MyInvocation.MyCommand.Definition)"
+$packageName   = 'evga-precision-x1'
+$url           = 'https://www.evga.com/EVGA/GeneralDownloading.aspx?file=EVGA_Precision_X1_1.1.0.11.zip&survey=11.1.0.11'
+$FileName      = 'evga-precision-x1.zip'
+$checksum      = 'fb3e36a83bb15a72131f67846c8ababc2ecf541d205a3c87a624c041b55de50a'
 $UnzipLocation = Join-Path "$env:TMP" ([io.path]::GetFileNameWithoutExtension( $FileName ))
 
 $downloadArgs = @{
   packageName   = $packageName
   url           = $url
-  checksum      = 'ce7b79a4f76ed748bff0641bca7db6eb74667a9770154f7087fbd9f5f3167f51'
+  checksum      = $checksum
   checksumType  = 'sha256'
   UnzipLocation = $UnzipLocation
   options       = @{
@@ -20,19 +20,19 @@ $downloadArgs = @{
   }
 }
 
-Write-Verbose "Unzip to $($packageArgs.UnzipLocation)"
+write-host "UNPACK TO $UnzipLocation"
+Install-ChocolateyZipPackage @downloadArgs 
 
-Install-ChocolateyZipPackage @downloadArgs
+$ExeFilePath = Get-ChildItem $UnzipLocation -Recurse *evga*.exe | ? fullname -match $packageName | sort name | Select-Object -Last 1
 
 $packageArgs = @{
   packageName         = $packageName
-  fileType            = 'msi'
-  url                 = $downloadArgs.fileFullPath
-  silentArgs          = "/qn /norestart"
+  fileType            = 'exe'
+  file                = $ExeFilePath.FullName
+  silentArgs          = "/S"
   validExitCodes      = @(0, 3010, 1641)
   UseOriginalLocation = $true
 }
 
 Install-ChocolateyPackage  @packageArgs
-
-Remove-Item $filePath 
+Remove-Item $UnzipLocation -Recurse -Force

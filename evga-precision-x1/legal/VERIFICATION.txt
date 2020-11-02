@@ -7,16 +7,16 @@ Package can be verified like this:
 
 1. Go to
 
-   url: https://forum.fanatec.com/uploads/832/9QPM5VG48L3N.zip
+   url: https://www.evga.com/EVGA/GeneralDownloading.aspx?file=EVGA_Precision_X1_1.1.0.11.zip&survey=11.1.0.11
 
    to download the installer.
 
-2. You can use one of the following methods to obtain the SHA256 checksum: 591668ddcce4b1fc198d3607711e82caa9383541dd977cab2e3e4131bc609a79
+2. You can use one of the following methods to obtain the SHA256 checksum: fb3e36a83bb15a72131f67846c8ababc2ecf541d205a3c87a624c041b55de50a
    - Use powershell function 'Get-FileHash'
    - Use Chocolatey utility 'checksum.exe'
 
-   checksum: 591668ddcce4b1fc198d3607711e82caa9383541dd977cab2e3e4131bc609a79
+   checksum: fb3e36a83bb15a72131f67846c8ababc2ecf541d205a3c87a624c041b55de50a
 
 Using AU:
 
-   Get-RemoteChecksum https://forum.fanatec.com/uploads/832/9QPM5VG48L3N.zip
+   Get-RemoteChecksum https://www.evga.com/EVGA/GeneralDownloading.aspx?file=EVGA_Precision_X1_1.1.0.11.zip&survey=11.1.0.11

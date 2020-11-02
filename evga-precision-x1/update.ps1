@@ -1,13 +1,14 @@
 Import-Module au
 . $PSScriptRoot\..\_scripts\all.ps1
 
-$releases = 'https://www.evga.com/precisionx1/'
+$base     = 'https://www.evga.com'
+$releases = '/precisionx1/'
 
 function global:au_SearchReplace {
     @{
         ".\tools\chocolateyInstall.ps1" = @{
             "(?i)(^\s*[$]packageName\s*=\s*)('.*')" = "`$1'$($Latest.PackageName)'"
-            "(?i)(^\s*[$]fileType\s*=\s*)('.*')"    = "`$1'$($Latest.FileType)'"
+            "(?i)(^\s*[$]FileName\s*=\s*)('.*')"    = "`$1'$($Latest.FileName)'"
             "(?i)(^\s*[$]url\s*=\s*)('.*')"         = "`$1'$($Latest.URL)'"
             "(?i)(^\s*[$]checksum\s*=\s*)('.*')"    = "`$1'$($Latest.Checksum)'"
         }
@@ -37,18 +38,22 @@ function global:au_GetLatest {
         'Upgrade-Insecure-Requests' = '1' 
         'Cache-Control'             = 'max-age=0'
     }
-    $page = Invoke-WebRequest -Uri $releases -UseBasicParsing -Headers $headers
+    
+    $page = Invoke-WebRequest -Uri ($base + $releases) -UseBasicParsing -Headers $headers
     $link = $page.links | Where-Object OuterHTML -Like '*download-button*standalone*' | 
     Select-Object -First 1 -ExpandProperty href
     $version = [regex]::replace($link, '.*?([0-9.]+)\.zip.*', '$1')
+    $packageName = 'evga-precision-x1'
+    $url = $base + $link
 
     return @{
-        URL         = $link
+        URL         = $url
         Version     = $version
-        PackageName = 'evga-precision-x1'
-        #Checksum    = Get-RemoteChecksum $url
-        docsUrl     = $releases
+        PackageName = $packageName
+        Checksum    = Get-RemoteChecksum $url -Headers $headers
+        docsUrl     = ($base + $releases)
+        FileName    = ($packageName + '.zip' )
     }
 }
 
-update -ChecksumFor none
+update -ChecksumFor none -NoCheckUrl
