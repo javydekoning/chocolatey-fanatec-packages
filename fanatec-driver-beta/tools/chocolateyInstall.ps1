@@ -19,8 +19,6 @@ Install-ChocolateyZipPackage @packageArgs
 $FilePath32 = Get-ChildItem $packageArgs.UnzipLocation -Recurse *32*driver*.msi | sort name | Select-Object -Last 1
 $FilePath64 = Get-ChildItem $packageArgs.UnzipLocation -Recurse *64*driver*.msi | sort name | Select-Object -Last 1
 
-Write-Verbose "Using $($FilePath64.FullName)"
-
 $tmpfile = [system.io.path]::GetTempFileName()
 @"
 -----BEGIN CERTIFICATE-----
