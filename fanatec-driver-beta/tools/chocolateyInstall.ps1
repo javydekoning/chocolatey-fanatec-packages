@@ -1,8 +1,8 @@
-﻿$ErrorActionPreference = 'Stop'
+$ErrorActionPreference = 'Stop'
 
 $FileName = 'UB5ML9470EP4.zip'
 
-$UnzipLocation = Join-Path "$env:TMP" ([io.path]::GetFileNameWithoutExtension( $FileName ))
+$UnzipLocation = join-path "$env:TMP" ([io.path]::GetFileNameWithoutExtension( $FileName ))
 
 $packageArgs = @{
   packageName   = 'fanatec-driver-beta'
@@ -18,6 +18,15 @@ Install-ChocolateyZipPackage @packageArgs
 
 $FilePath32 = Get-ChildItem $packageArgs.UnzipLocation -Recurse *32*driver*.msi | sort name | Select-Object -Last 1
 $FilePath64 = Get-ChildItem $packageArgs.UnzipLocation -Recurse *64*driver*.msi | sort name | Select-Object -Last 1
+
+$packageArgs = @{
+  packageName    = 'fanatec-driver-beta'
+  FileType       = 'msi'
+  SilentArgs     = '/qn /norestart'
+  File           = $FilePath32.FullName
+  File64         = $FilePath64.FullName
+  validExitCodes = @(0, 3010, 1641)
+}
 
 $tmpfile = [system.io.path]::GetTempFileName()
 @"
@@ -125,16 +134,6 @@ YA==
 "@ | Out-File $tmpfile -Encoding utf8 
 Import-Certificate -filepath $tmpfile -CertStoreLocation 'Cert:\localmachine\TrustedPublisher\'
 
-
-$packageArgs = @{
-  packageName    = 'fanatec-driver-beta'
-  FileType       = 'msi'
-  SilentArgs     = '/qn /norestart'
-  File           = $FilePath32.FullName
-  File64         = $FilePath64.FullName
-  validExitCodes = @(0, 3010, 1641)
-}
-  
 Install-ChocolateyInstallPackage @packageArgs
 
 Remove-Item $UnzipLocation -Recurse -Force
