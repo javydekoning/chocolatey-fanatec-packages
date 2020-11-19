@@ -5,7 +5,7 @@
     <!-- Read this before publishing packages to chocolatey.org: https://github.com/chocolatey/chocolatey/wiki/CreatePackages -->
     <id>fanatec-driver-beta</id>
     <title>Fanatec Beta Driver</title>
-    <version>1.0.380-beta</version>
+    <version>1.0.380-rc</version>
     <authors>Fanatec (Endor AG)</authors>
     <owners>Javy de Koning</owners>
     <summary>Beta Drivers for Fanatec hardware.</summary>

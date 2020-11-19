@@ -41,7 +41,7 @@ function global:au_GetLatest {
     $DlLink = ($Post | ConvertFrom-Html).SelectNodes('//a') | Where-Object InnerText -Like '*driver*zip*'
     $url = $DlLink.GetAttributeValue('href', '')
 
-    $version = [regex]::replace($DlLink.innertext, '(?i).*driver_(\d+).+?(alpha|beta|rc)?.*', '$1-$2')
+    $version = [regex]::replace($DlLink.innertext, '(?i).*driver_(\d+).+?(alpha|beta|rc)?.*', '$1-$2').trim()
 
     return @{
         URL         = $url

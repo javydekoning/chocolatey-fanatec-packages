@@ -2,9 +2,11 @@
 
 $toolsDir      = "$(Split-Path -Parent $MyInvocation.MyCommand.Definition)"
 $packageName   = 'evga-precision-x1'
+
 $url           = 'https://www.evga.com/EVGA/GeneralDownloading.aspx?file=EVGA_Precision_X1_1.1.1.zip&survey=11.1.1'
 $FileName      = 'evga-precision-x1.zip'
 $checksum      = '52873ff701917aa101da0861306f39460742d014216a64c13fdc37f6e565dbc2'
+
 $UnzipLocation = Join-Path "$env:TMP" ([io.path]::GetFileNameWithoutExtension( $FileName ))
 
 $downloadArgs = @{
@@ -35,4 +37,5 @@ $packageArgs = @{
 }
 
 Install-ChocolateyPackage  @packageArgs
+
 Remove-Item $UnzipLocation -Recurse -Force
