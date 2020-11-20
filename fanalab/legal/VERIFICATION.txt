@@ -7,16 +7,16 @@ Package can be verified like this:
 
 1. Go to
 
-   url: https://forum.fanatec.com/uploads/824/4U2V3GC7G8QU.zip
+   url: https://forum.fanatec.com/uploads/670/DZ1R9446Y4QR.zip
 
    to download the installer.
 
-2. You can use one of the following methods to obtain the SHA256 checksum: 3f045c5e11077afa520332673a18cfbed0f6610b138342a83ee1c2fdb6222d24
+2. You can use one of the following methods to obtain the SHA256 checksum: 820ede74edd30e23bda905de7fa33697c26c1163866eb619b30e3fc1cb3119ca
    - Use powershell function 'Get-FileHash'
    - Use Chocolatey utility 'checksum.exe'
 
-   checksum: 3f045c5e11077afa520332673a18cfbed0f6610b138342a83ee1c2fdb6222d24
+   checksum: 820ede74edd30e23bda905de7fa33697c26c1163866eb619b30e3fc1cb3119ca
 
 Using AU:
 
-   Get-RemoteChecksum https://forum.fanatec.com/uploads/824/4U2V3GC7G8QU.zip
+   Get-RemoteChecksum https://forum.fanatec.com/uploads/670/DZ1R9446Y4QR.zip
