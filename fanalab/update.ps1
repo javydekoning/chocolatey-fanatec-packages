@@ -7,7 +7,6 @@ function global:au_SearchReplace {
     @{
         ".\tools\chocolateyInstall.ps1" = @{
             "(?i)(^\s*[$]packageName\s*=\s*)('.*')" = "`$1'$($Latest.PackageName)'"
-            "(?i)(^\s*[$]fileType\s*=\s*)('.*')"    = "`$1'$($Latest.FileType)'"
             "(?i)(^\s*[$]url\s*=\s*)('.*')"         = "`$1'$($Latest.URL)'"
             "(?i)(^\s*[$]checksum\s*=\s*)('.*')"    = "`$1'$($Latest.Checksum)'"
         }
@@ -17,11 +16,6 @@ function global:au_SearchReplace {
             "(\<version\>).*?(\</version\>)" = "`${1}$($Latest.Version)`$2"
         }
 
-        ".\legal\VERIFICATION.txt"      = @{
-            "(?i)(\s+url:).*"            = "`${1} $($Latest.URL)"
-            "(?i)(checksum:).*"          = "`${1} $($Latest.Checksum)"
-            "(?i)(Get-RemoteChecksum).*" = "`${1} $($Latest.URL)"
-        }
     }
 }
 
