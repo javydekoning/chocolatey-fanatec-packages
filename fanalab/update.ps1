@@ -32,7 +32,7 @@ function global:au_GetLatest {
 
     $re = "https://forum.fanatec.com/uploads/.*\.zip"
     $url = $dl_page.links | Where-Object href -Match $re | Select-Object -First 1 -expand href
-    $version = [regex]::replace($category_page.outerHTML, '.*FanaLab (\d+\.\d+).*', '$1') 
+    $version = [regex]::replace($category_page.outerHTML, '.*FanaLab ([0-9.]+).*', '$1') 
 
     return @{
         URL         = $url

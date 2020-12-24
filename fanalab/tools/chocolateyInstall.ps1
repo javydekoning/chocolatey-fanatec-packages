@@ -1,8 +1,8 @@
 ﻿$ErrorActionPreference = 'Stop'
 
 $packageName = 'fanalab'
-$url = 'https://forum.fanatec.com/uploads/832/9QPM5VG48L3N.zip'
-$checksum = '591668ddcce4b1fc198d3607711e82caa9383541dd977cab2e3e4131bc609a79'
+$url = 'https://forum.fanatec.com/uploads/759/MNQ32ZC2HIE5.zip'
+$checksum = '0c486e52c4151ab2de0376459d4d0fe1d8dd1ef2fae79a70669ccde91339739e'
 $filePath = "$toolsDir\fanalab.zip"
 
 $toolsDir = Split-Path $MyInvocation.MyCommand.Definition
@@ -25,7 +25,7 @@ Get-ChocolateyWebFile @downloadArgs
 Get-ChocolateyUnzip -FileFullPath $filePath -Destination $toolsDir
 
 $fileTypeUnzipped = 'msi'
-$embedded_path = Get-Item "$toolsDir\*.$fileTypeUnzipped"
+$embedded_path = Get-ChildItem -Recurse $toolsDir *.$fileTypeUnzipped | Select-Object -ExpandProperty FullName
 $packageArgs = @{
   packageName    = $packageName
   fileType       = $fileTypeUnzipped
