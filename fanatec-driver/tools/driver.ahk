@@ -7,13 +7,11 @@ SetTitleMatchMode, 2 ;contains
 
 winTitle = Windows Security ahk_class #32770
 
-Loop, 3
-{
-    ; Driver window
+; Driver install windows
+Loop, 5 {
     WinWait, %winTitle%, ,300
     WinActivate
-    ; Send alt+i
-    Send !a
+    ControlClick, &Install, %winTitle%
     Sleep, 100
 }
 ExitApp
