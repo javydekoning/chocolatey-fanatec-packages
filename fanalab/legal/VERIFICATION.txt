@@ -7,16 +7,16 @@ Package can be verified like this:
 
 1. Go to
 
-   url: https://forum.fanatec.com/uploads/670/DZ1R9446Y4QR.zip
+   url: https://forum.fanatec.com/uploads/759/MNQ32ZC2HIE5.zip
 
    to download the installer.
 
-2. You can use one of the following methods to obtain the SHA256 checksum: 820ede74edd30e23bda905de7fa33697c26c1163866eb619b30e3fc1cb3119ca
+2. You can use one of the following methods to obtain the SHA256 checksum: 0c486e52c4151ab2de0376459d4d0fe1d8dd1ef2fae79a70669ccde91339739e
    - Use powershell function 'Get-FileHash'
    - Use Chocolatey utility 'checksum.exe'
 
-   checksum: 820ede74edd30e23bda905de7fa33697c26c1163866eb619b30e3fc1cb3119ca
+   checksum: 0c486e52c4151ab2de0376459d4d0fe1d8dd1ef2fae79a70669ccde91339739e
 
 Using AU:
 
-   Get-RemoteChecksum https://forum.fanatec.com/uploads/670/DZ1R9446Y4QR.zip
+   Get-RemoteChecksum https://forum.fanatec.com/uploads/759/MNQ32ZC2HIE5.zip

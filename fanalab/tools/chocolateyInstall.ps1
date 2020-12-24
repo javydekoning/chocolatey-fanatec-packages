@@ -1,8 +1,8 @@
 ﻿$ErrorActionPreference = 'Stop'
 
 $packageName = 'fanalab'
-$url = 'https://forum.fanatec.com/uploads/670/DZ1R9446Y4QR.zip'
-$checksum = '820ede74edd30e23bda905de7fa33697c26c1163866eb619b30e3fc1cb3119ca'
+$url = 'https://forum.fanatec.com/uploads/759/MNQ32ZC2HIE5.zip'
+$checksum = '0c486e52c4151ab2de0376459d4d0fe1d8dd1ef2fae79a70669ccde91339739e'
 $filePath = "$toolsDir\fanalab.zip"
 $fileType = 'zip'
 
