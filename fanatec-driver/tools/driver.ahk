@@ -12,6 +12,7 @@ Loop, 5 {
     WinWait, %winTitle%, ,300
     WinActivate
     ControlClick, &Install, %winTitle%
+
     Sleep, 100
 }
 ExitApp
