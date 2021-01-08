@@ -1,6 +1,6 @@
 ﻿$ErrorActionPreference = 'Stop'
 
-$toolsDir = "$(Split-Path -Parent $MyInvocation.MyCommand.Definition)"
+$toolsDir    = "$(Split-Path -Parent $MyInvocation.MyCommand.Definition)"
 $packageName = 'evga-precision-x1'
 
 $url = 'https://fichiers.touslesdrivers.com/66973/EVGA_Precision_X1_1.1.4.zip'

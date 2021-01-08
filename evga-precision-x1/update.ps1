@@ -23,35 +23,7 @@ function global:au_SearchReplace {
 function global:au_BeforeUpdate { Get-RemoteFiles -Purge }
 function global:au_AfterUpdate { Set-DescriptionFromReadme -SkipFirst 2 }
 
-Function Get-EvgaRedirectUrl ($path) {
-    $base = 'https://www.evga.com'
-    $headers = @{
-        "method"                    = "GET"
-        "authority"                 = "www.evga.com"
-        "scheme"                    = "https"
-        #"path"="/EVGA/GeneralDownloading.aspx?file=EVGA_Precision_X1_1.1.4.zip"
-        "path"                      = $path
-        "sec-ch-ua"                 = "`"Google Chrome`";v=`"87`", `" Not;A Brand`";v=`"99`", `"Chromium`";v=`"87`""
-        "sec-ch-ua-mobile"          = "?0"
-        "upgrade-insecure-requests" = "1"
-        "user-agent"                = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"
-        "accept"                    = "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
-        "sec-fetch-site"            = "same-origin"
-        "sec-fetch-mode"            = "navigate"
-        "sec-fetch-user"            = "?1"
-        "sec-fetch-dest"            = "document"
-        "referer"                   = "https://www.evga.com/precisionx1/"
-        "accept-encoding"           = "gzip, deflate, br"
-        "accept-language"           = "nl-NL,nl;q=0.9,en-US;q=0.8,en;q=0.7"
-    }
-    $uri = $base + $path
-    $r = Invoke-WebRequest -UseBasicParsing -Headers $headers -Method Get -Uri $Uri -MaximumRedirection 0 -ea 0
-    $r.headers.location
-}
-  
-
 function global:au_GetLatest {
-
 
     $headers = @{
         "Upgrade-Insecure-Requests" = "1"
@@ -75,15 +47,16 @@ function global:au_GetLatest {
 
     $version = [regex]::replace($dllink.href, '.*?([0-9.]+)\.zip.*', '$1')
     $packageName = 'evga-precision-x1'
+    Write-Verbose "Found version $version at ${$dllink.href}"
 
     return @{
         URL         = $dllink.href
         Version     = $version
         PackageName = $packageName
-        Checksum    = Get-RemoteChecksum $url -Headers $headers
-        docsUrl     = ($base + $releases)
+        Checksum    = Get-RemoteChecksum $dllink.href -Headers $headers
+        docsUrl     = 'https://www.evga.com/precisionx1/'
         FileName    = ($packageName + '.zip' )
     }
 }
 
-update -ChecksumFor none -NoCheckUrl -NoCheckChocoVersion
+update -verbose -ChecksumFor none
