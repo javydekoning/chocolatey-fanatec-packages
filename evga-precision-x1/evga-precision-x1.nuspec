@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Do not remove this test for UTF-8: if â€œÎ©â€ doesnâ€™t appear as greek uppercase omega letter enclosed in quotation marks, you should use an editor that supports UTF-8, not this one. -->
+<!-- Do not remove this test for UTF-8: if Ã¢â‚¬Å“ÃŽÂ©Ã¢â‚¬Â doesnÃ¢â‚¬â„¢t appear as greek uppercase omega letter enclosed in quotation marks, you should use an editor that supports UTF-8, not this one. -->
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <!-- Read this before publishing packages to chocolatey.org: https://github.com/chocolatey/chocolatey/wiki/CreatePackages -->
     <id>evga-precision-x1</id>
     <title>EVGA Precision X1</title>
-    <version>1.1.2.0</version>
+    <version>1.1.4</version>
     <authors>EVGA Corporation</authors>
     <owners>Javy de Koning</owners>
     <summary>Software for tuning Geforce GPU's.</summary>
@@ -24,7 +24,7 @@
     <projectUrl>https://www.evga.com/precisionx1/</projectUrl>
     <docsUrl>https://www.evga.com/precisionx1/</docsUrl>
     <tags>evga precisionx1 x1</tags>
-    <copyright>© 2020 EVGA® Corporation</copyright>
+    <copyright>Â© 2020 EVGAÂ® Corporation</copyright>
     <licenseUrl>https://www.evga.com/legal/terms/</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <iconUrl>https://raw.githubusercontent.com/javydekoning/chocolatey-fanatec-packages/master/evga-precision-x1/icon.png</iconUrl>
