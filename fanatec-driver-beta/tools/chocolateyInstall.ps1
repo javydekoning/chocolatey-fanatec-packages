@@ -1,13 +1,13 @@
-$ErrorActionPreference = 'Stop'
+﻿$ErrorActionPreference = 'Stop'
 
-$FileName = 'UB5ML9470EP4.zip'
+$FileName = 'DD52RW284ETY.zip'
 
 $UnzipLocation = join-path "$env:TMP" ([io.path]::GetFileNameWithoutExtension( $FileName ))
 
 $packageArgs = @{
   packageName   = 'fanatec-driver-beta'
-  url           = 'https://forum.fanatec.com/uploads/599/UB5ML9470EP4.zip'
-  checksum      = 'ce7b79a4f76ed748bff0641bca7db6eb74667a9770154f7087fbd9f5f3167f51'
+  url           = 'https://forum.fanatec.com/uploads/214/DD52RW284ETY.zip'
+  checksum      = '7892a3b9def334b989c4a2fb315a253c805c054269c90b1eab318ccab29209af'
   checksumType  = 'sha256'
   UnzipLocation = $UnzipLocation
 }

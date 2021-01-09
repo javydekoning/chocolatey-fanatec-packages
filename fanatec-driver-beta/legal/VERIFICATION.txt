@@ -7,17 +7,17 @@ Package can be verified like this:
 
 1. Go to
 
-   url: https://forum.fanatec.com/uploads/599/UB5ML9470EP4.zip
+   url: https://forum.fanatec.com/uploads/214/DD52RW284ETY.zip
 
    to download the installer.
 
-2. You can use one of the following methods to obtain the SHA256 checksum: ce7b79a4f76ed748bff0641bca7db6eb74667a9770154f7087fbd9f5f3167f51
+2. You can use one of the following methods to obtain the SHA256 checksum: 7892a3b9def334b989c4a2fb315a253c805c054269c90b1eab318ccab29209af
    - Use powershell function 'Get-FileHash'
    - Use Chocolatey utility 'checksum.exe'
 
-   checksum: ce7b79a4f76ed748bff0641bca7db6eb74667a9770154f7087fbd9f5f3167f51
+   checksum: 7892a3b9def334b989c4a2fb315a253c805c054269c90b1eab318ccab29209af
 
 Using AU:
 
-  Get-RemoteChecksum https://forum.fanatec.com/uploads/599/UB5ML9470EP4.zip
+  Get-RemoteChecksum https://forum.fanatec.com/uploads/214/DD52RW284ETY.zip
 

@@ -5,7 +5,7 @@
     <!-- Read this before publishing packages to chocolatey.org: https://github.com/chocolatey/chocolatey/wiki/CreatePackages -->
     <id>fanalab</id>
     <title>Fanalab</title>
-    <version>1.54</version>
+    <version>1.54.2</version>
     <authors>Fanatec (Endor AG)</authors>
     <owners>Javy de Koning</owners>
     <summary>PC software that allows fine-tuning of Fanatec hardware settings and features.</summary>
@@ -36,6 +36,5 @@
   </metadata>
   <files>
     <file src="tools\**" target="tools" />
-    <file src="legal\**" target="legal" />
   </files>
 </package>

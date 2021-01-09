@@ -11,9 +11,16 @@ motor, and steering wheel firmwares separately.
 
 [Fanalab Forum](https://forum.fanatec.com/categories/beta-drivers)
 
-## Package parameters
+## Package Notes
 
-* None
+This package will add Code Signing certificates to the machines Trusted Publisher store (`Cert:\LocalMachine\TrustedPublisher\`).
+
+Certificates will be added for: 
+
+- MEDIA ELECTRONICS INC.
+- Endor AG (Fanatec).
+
+This is required to install the drivers.
 
 ## Videos
 
