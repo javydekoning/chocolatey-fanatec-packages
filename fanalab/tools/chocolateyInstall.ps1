@@ -1,8 +1,8 @@
 ﻿$ErrorActionPreference = 'Stop'
 
 $packageName = 'fanalab'
-$url = 'https://forum.fanatec.com/uploads/759/MNQ32ZC2HIE5.zip'
-$checksum = '0c486e52c4151ab2de0376459d4d0fe1d8dd1ef2fae79a70669ccde91339739e'
+$url = 'https://forum.fanatec.com/uploads/906/3Y6B6FMZM1BR.zip'
+$checksum = '2782f9f092fd00e584bf02fa9dbe3ce24a7b396e89baffd99ef50ace8a549e96'
 $filePath = "$toolsDir\fanalab.zip"
 
 $toolsDir = Split-Path $MyInvocation.MyCommand.Definition
