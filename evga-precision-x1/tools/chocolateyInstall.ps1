@@ -3,9 +3,9 @@
 $toolsDir    = "$(Split-Path -Parent $MyInvocation.MyCommand.Definition)"
 $packageName = 'evga-precision-x1'
 
-$url = 'https://fichiers.touslesdrivers.com/67419/EVGA_Precision_X1_1.1.7.0.zip'
+$url = 'https://fichiers.touslesdrivers.com/68022/EVGA_Precision_X1_1.1.8.0.zip'
 $FileName = 'evga-precision-x1.zip'
-$checksum = 'bc2622817c0afda5a3dbf5a93e59be4c8ed7fdfd827a3108c54a2712216a4e91'
+$checksum = 'c77736cc1fce776977809918980ead07ac974c20e26f003e049c503c32002280'
 
 $UnzipLocation = Join-Path "$env:TMP" ([io.path]::GetFileNameWithoutExtension( $FileName ))
 
