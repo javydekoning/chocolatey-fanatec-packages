@@ -24,10 +24,10 @@
     <projectUrl>https://www.evga.com/precisionx1/</projectUrl>
     <docsUrl>https://www.evga.com/precisionx1/</docsUrl>
     <tags>evga precisionx1 x1</tags>
-    <copyright>ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â© 2020 EVGAÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â® Corporation</copyright>
+    <copyright>2020 EVGA Corporation</copyright>
     <licenseUrl>https://www.evga.com/legal/terms/</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <iconUrl>https://raw.githubusercontent.com/javydekoning/chocolatey-fanatec-packages/master/evga-precision-x1/icon.png</iconUrl>
+    <iconUrl>https://cdn.jsdelivr.net/gh/javydekoning/chocolatey-fanatec-packages@master/evga-precision-x1/icon.png</iconUrl>
     <dependencies>
       <dependency id="chocolatey-core.extension" version="1.2" />
     </dependencies>

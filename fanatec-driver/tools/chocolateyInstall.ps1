@@ -92,6 +92,26 @@ pOFnS5v2cOfRBCYHnkYk71/oKYsFwiaL90rS5FpdVFtOg3qbodH9VII4GlKKhBtU
 -----END CERTIFICATE-----
 "@
 
+# Windows 7 doesn't have import-certificate, hence using wrapper func
+if (!(Test-Path Function:\Import-Certificate)) {
+  function Import-Certificate([string]$FilePath, [string]$CertStoreLocation) {
+    $certSplits = $CertStoreLocation -replace '^cert\:\\' -split '\\'
+    if (!($certSplits.Length -eq 2)) { throw "Unexpected certificate storage location" }
+
+    $certutil = Get-Command "certutil" | Select-Object -ExpandProperty Path
+
+    if (!$certutil) { throw "Path to certutil was not found" }
+
+    $arguments = @(
+      '-addstore'
+      $certSplits[1]
+      "$(Resolve-Path $FilePath)"
+    )
+
+    Start-ChocolateyProcessAsAdmin -ExeToRun $certutil -Statements $arguments
+  }
+}
+
 $DatronicsoftCert, $EndorAgCert | ForEach-Object {
   $tmpFile = [system.io.path]::GetTempFileName()
   $_ | Out-File $tmpFile -Encoding utf8
