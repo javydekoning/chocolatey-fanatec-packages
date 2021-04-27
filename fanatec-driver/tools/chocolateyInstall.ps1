@@ -4,7 +4,7 @@
 $toolsDir = "$(Split-Path -Parent $MyInvocation.MyCommand.Definition)"
 
 $packageName = 'fanatec-driver'
-$url = 'https://fanatec.com/media/archive/05/23/61/2021-01-20-Fanatec_driver_400-1.zip'
+$url = 'https://fanatec.com/media/archive/73/0d/1b/2021-01-20-Fanatec_driver_402.zip'
 $checksum = '0c486e52c4151ab2de0376459d4d0fe1d8dd1ef2fae79a70669ccde91339739e'
 $filePath = "$toolsDir\$packageName.zip"
 
