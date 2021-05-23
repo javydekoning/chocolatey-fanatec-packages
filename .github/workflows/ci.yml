@@ -38,13 +38,13 @@ jobs:
           #Dumping Context
           $context | ConvertTo-Json
       - name: install
-        shell: pwsh
+        shell: powershell
         env:
           au_version: "master"
         run: |
           install-Module powerhtml -Force -SkipPublisherCheck
           git clone -q https://github.com/majkinetor/au.git $Env:TEMP/au
-          . "$Env:TEMP/au/scripts/Install-AU.ps1" $Env:au_version
+          . "$Env:TEMP/au/scripts/Install-AU.ps1" $Env:au_version -verbose
       - name: build_script
         shell: powershell # Instead of pwsh because au fails on pwsh core.
         env:
