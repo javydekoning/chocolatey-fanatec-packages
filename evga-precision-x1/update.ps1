@@ -24,38 +24,39 @@ function global:au_BeforeUpdate { Get-RemoteFiles -Purge }
 function global:au_AfterUpdate { Set-DescriptionFromReadme -SkipFirst 2 }
 
 function global:au_GetLatest {
-
+    $userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)"
     $headers = @{
-        "Upgrade-Insecure-Requests" = "1"
-        "User-Agent"                = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36"
-        "Accept"                    = "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
-        "Sec-Fetch-Site"            = "none"
-        "Sec-Fetch-Mode"            = "navigate"
-        "Sec-Fetch-Dest"            = "document"
-        "Accept-Encoding"           = "gzip, deflate, br"
-        "Accept-Language"           = "en-US,en;q=0.9"
+        "User-Agent" = $userAgent
     }
     
-    $page = Invoke-WebRequest -Uri $releases -UseBasicParsing -Headers $headers
-    $link = $page.links | Where-Object OuterHTML -Like '*Precision X1*' |
-    Select-Object -First 1 -ExpandProperty href
-    $vcode = ($link -split '=')[-1]
+    # Get Latest version
+    $request = [System.Net.WebRequest]::Create("https://www.evga.com/precisionx1/PX1Update.txt?v=")
+    $request.Method = "Get"
+    $response = $request.GetResponse()
+    $reqStream = $response.GetResponseStream()
+    $readStream = New-Object System.IO.StreamReader $reqStream
+    $data = $readStream.ReadToEnd()
 
-    $mirrors = 'https://www.touslesdrivers.com/php/constructeurs/telechargement.php?v_code={0}' -f $vcode
-    $links = Invoke-WebRequest -Uri $mirrors -UseBasicParsing -Headers $headers
-    $dllink = $links.links | Where-Object href -Match 'fichiers.touslesdrivers.com'
+    $fileUrl = [regex]::match($data, 'FileURL\s+=\s(\S+)').Groups[1].Value
+    $version = [regex]::match($data, 'ProductVersion\s+=\s(\d\.\d\.\d\.\d)').Groups[1].Value
 
-    $version = [regex]::replace($dllink.href, '.*?([0-9.]+)\.zip.*', '$1')
-    $packageName = 'evga-precision-x1'
-    Write-Verbose "Found version $version at ${$dllink.href}"
+    # Get FileHash
+    # $reqFile = [System.Net.HttpWebRequest]::Create($fileUrl)
+    # $reqFile.Headers.Add($userAgent)
+    # $resFile = $reqFile.GetResponse()
+    # $req1 = [System.Net.HttpWebRequest]::Create($resFile.ResponseUri)
+    # $res1 = $req1.GetResponse()
+    # $reader = [System.IO.StreamReader]::new($res1.GetResponseStream())
+    # $reader.ReadToEnd() | Out-File test.exe 
+    # Get-FileHash test.exe -Algo SHA256 
 
     return @{
-        URL         = $dllink.href
+        URL         = $fileUrl
         Version     = $version
         PackageName = $packageName
-        Checksum    = Get-RemoteChecksum $dllink.href -Headers $headers
+        Checksum    = Get-RemoteChecksum $fileUrl -Headers $headers
         docsUrl     = 'https://www.evga.com/precisionx1/'
-        FileName    = ($packageName + '.zip' )
+        FileName    = ($packageName + '.exe' )
     }
 }
 
