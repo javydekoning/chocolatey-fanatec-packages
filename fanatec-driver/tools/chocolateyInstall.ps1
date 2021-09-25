@@ -4,7 +4,7 @@
 $toolsDir = "$(Split-Path -Parent $MyInvocation.MyCommand.Definition)"
 
 $packageName = 'fanatec-driver'
-$url = 'https://fanatec.com/media/archive/b5/9a/8a/2021-08-25-Fanatec_driver_411.zip'
+$url = 'https://fanatec.com/media/archive/34/21/c2/2021-09-09-Fanatec_driver_415nnlaMEyUZpWrd.zip'
 $checksum = '0c486e52c4151ab2de0376459d4d0fe1d8dd1ef2fae79a70669ccde91339739e'
 $filePath = "$toolsDir\$packageName.zip"
 
@@ -12,7 +12,7 @@ $downloadArgs = @{
   packageName  = $env:ChocolateyPackageName
   fileFullPath = $filePath
   url          = $url
-  checksum     = '30b3be77bbe61c1eca40df23d5690e872b005abe55f04ae787b6c98c729dd477'
+  checksum     = '2b93cdeb4abbb464ba49e8e8b4319216d07d9c16431a624b9ee6f0626ee65d06'
   checksumType = 'sha256'
   options      = @{
     Headers = @{             
