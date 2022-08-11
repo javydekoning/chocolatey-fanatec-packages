@@ -1,8 +1,9 @@
 name: CI
 
 on:
+  workflow_dispatch:
   push:
-    branches: [dev, ci, master]
+    branches: [dev, ci, master, workflow_dispatch]
   schedule:
     - cron: "0 11 * * *"
 
