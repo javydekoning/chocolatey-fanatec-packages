@@ -41,14 +41,12 @@ function global:au_GetLatest {
     $fileCapture = $page.Content | sls 'FileURL\s+=\s+(\S+)' -AllMatches
     $producPageCapture = $page.Content | sls 'ProductURL\s+=\s+(\S+)' -AllMatches
 
-    Write-Verbose "Found version $version at ${$dllink.href}"
-
     $content = Invoke-RestMethod $fileCapture.Matches.Groups[1].value -Headers $headers 
     $memstream = [System.IO.MemoryStream]::new($content.ToCharArray())
     $thisFileHash = Get-FileHash -InputStream $memstream -Algorithm SHA256
 
     return @{
-        URL         = $fileCapture.Matches.Groups[1].value
+        URL         = "https://storage.cdn.evga.com/software/" + ($fileCapture.Matches.Groups[1].value -split '=')[-1]
         Version     = $versionCapture.Matches.Groups[1].value
         PackageName = 'evga-precision-x1'
         Checksum    = $thisFileHash.Hash
