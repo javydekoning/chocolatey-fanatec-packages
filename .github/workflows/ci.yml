@@ -44,8 +44,9 @@ jobs:
           au_version: "master"
         run: |
           install-Module powerhtml -Force -SkipPublisherCheck
-          git clone -q https://github.com/majkinetor/au.git $Env:TEMP/au
-          . "$Env:TEMP/au/scripts/Install-AU.ps1" $Env:au_version -verbose
+          $aupath = join-path $([System.IO.Path]::GetTempPath()) "au"
+          git clone -q https://github.com/majkinetor/au.git $aupath
+          . "$aupath/scripts/Install-AU.ps1" $Env:au_version -verbose
       - name: build_script
         shell: powershell # Instead of pwsh because au fails on pwsh core.
         env:

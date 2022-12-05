@@ -1,7 +1,7 @@
 Import-Module au
 . $PSScriptRoot\..\_scripts\all.ps1
 
-$releases = 'https://www.touslesdrivers.com/index.php?v_page=12&v_code=922'
+$releases = "https://www.evga.com/precisionx1/PX1Update.txt?v="
 
 function global:au_SearchReplace {
     @{
@@ -37,25 +37,21 @@ function global:au_GetLatest {
     }
     
     $page = Invoke-WebRequest -Uri $releases -UseBasicParsing -Headers $headers
-    $link = $page.links | Where-Object OuterHTML -Like '*Precision X1*' |
-    Select-Object -First 1 -ExpandProperty href
-    $vcode = ($link -split '=')[-1]
+    $versionCapture = $page.Content | sls 'ProductVersion\s+=\s+([0-9\.]+)' -AllMatches
+    $fileCapture = $page.Content | sls 'FileURL\s+=\s+(\S+)' -AllMatches
+    $producPageCapture = $page.Content | sls 'ProductURL\s+=\s+(\S+)' -AllMatches
 
-    $mirrors = 'https://www.touslesdrivers.com/php/constructeurs/telechargement.php?v_code={0}' -f $vcode
-    $links = Invoke-WebRequest -Uri $mirrors -UseBasicParsing -Headers $headers
-    $dllink = $links.links | Where-Object href -Match 'fichiers.touslesdrivers.com'
-
-    $version = [regex]::replace($dllink.href, '.*?([0-9.]+)\.zip.*', '$1')
     $packageName = 'evga-precision-x1'
+
     Write-Verbose "Found version $version at ${$dllink.href}"
 
     return @{
-        URL         = $dllink.href
-        Version     = $version
-        PackageName = $packageName
-        Checksum    = Get-RemoteChecksum $dllink.href -Headers $headers
-        docsUrl     = 'https://www.evga.com/precisionx1/'
-        FileName    = ($packageName + '.zip' )
+        URL         = $fileCapture.Matches.Groups[1].value
+        Version     = $versionCapture.Matches.Groups[1].value
+        PackageName = 'evga-precision-x1'
+        Checksum    = Get-RemoteChecksum $fileCapture.Matches.Groups[1].value -Headers $headers
+        docsUrl     = $producPageCapture.Matches.Groups[1].value
+        FileName    = ($fileCapture.Matches.Groups[1].value -split '=')[-1]
     }
 }
 
