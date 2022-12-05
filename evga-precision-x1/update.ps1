@@ -45,7 +45,8 @@ function global:au_GetLatest {
 
     Write-Verbose "Found version $version at ${$dllink.href}"
 
-    $content = Invoke-RestMethod $fileCapture.Matches.Groups[1].value -Headers $headers 
+    $temp = 'https://storage.cdn.evga.com/software/EVGA_Precision_X1_1.3.7.0.exe'
+    $content = Invoke-RestMethod "https://storage.cdn.evga.com/software/EVGA_Precision_X1_1.3.7.0.exe" -Headers $headers 
     $memstream = [System.IO.MemoryStream]::new($content.ToCharArray())
     $thisFileHash = Get-FileHash -InputStream $memstream -Algorithm SHA256
 
