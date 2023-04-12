@@ -4,7 +4,7 @@
     <!-- Read this before publishing packages to chocolatey.org: https://github.com/chocolatey/chocolatey/wiki/CreatePackages -->
     <id>fanatec-driver</id>
     <title>Fanatec Driver</title>
-    <version>1.0.447</version>
+    <version>1.0.450</version>
     <authors>Fanatec (Endor AG)</authors>
     <owners>Javy de Koning</owners>
     <summary>Drivers for Fanatec hardware.</summary>
